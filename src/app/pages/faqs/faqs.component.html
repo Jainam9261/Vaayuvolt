@@ -1,0 +1,62 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+
+<main>
+  <!-- Hero Section -->
+  <!-- Hero Section -->
+  <app-page-header 
+    title="Frequently Asked Questions" 
+    [breadcrumbs]="[{label: 'FAQs', url: '/faqs'}]"
+    bgImage="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1920&auto=format&fit=crop">
+  </app-page-header>
+
+  <!-- FAQs Section -->
+  <section class="faqs-section section">
+    <div class="container">
+      <div class="faqs-intro text-center">
+        <h2>Have questions about VaayuVolt?</h2>
+        <p>
+          Find clear answers about our wind turbines, performance in low-wind areas, installation, and support.
+        </p>
+      </div>
+
+      <div class="faqs-container">
+        @for (faq of faqs; track faq.id) {
+          <div class="faq-item" revealOnScroll="fade-up" [revealDelay]="$index * 50">
+            <button 
+              class="faq-question" 
+              (click)="toggleFaq(faq.id)"
+              [class.active]="isFaqOpen(faq.id)"
+              [attr.aria-expanded]="isFaqOpen(faq.id)"
+            >
+              <span>{{ faq.question }}</span>
+              <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 10l5 5 5-5z"/>
+              </svg>
+            </button>
+            <div class="faq-answer" [class.open]="isFaqOpen(faq.id)">
+              <div class="faq-answer-content">
+                <p>{{ faq.answer }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section section" revealOnScroll="fade-up">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Still Have Questions?</h2>
+        <p>Our team is here to help. Contact us for personalized assistance</p>
+        <a routerLink="/contact" class="btn btn-accent btn-large">Contact Us</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
+<app-whatsapp-fab></app-whatsapp-fab>
+

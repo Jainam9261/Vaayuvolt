@@ -1,0 +1,27 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+
+<main>
+  <app-page-header 
+    title="Blog" 
+    [breadcrumbs]="[{label: 'Blog', url: '/blog'}]"
+    bgImage="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1920&auto=format&fit=crop">
+  </app-page-header>
+
+  <section class="coming-soon-section">
+    <div class="container">
+      <div class="coming-soon-content" revealOnScroll="fade-up">
+        <div class="icon-wrapper">
+          <div class="blog-icon">📝</div>
+        </div>
+        <h1 class="coming-soon-title">Coming Soon</h1>
+        <p class="coming-soon-description">
+          Our blog is currently under construction. Stay tuned for updates!
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
+<app-whatsapp-fab></app-whatsapp-fab>

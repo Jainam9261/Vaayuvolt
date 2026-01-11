@@ -1,0 +1,48 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+
+<main>
+  <!-- Hero Section -->
+  <app-page-header 
+    title="Why Choose Us" 
+    [breadcrumbs]="[{label: 'Why Choose Us', url: '/why-choose-us'}]"
+    bgImage="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1920&auto=format&fit=crop">
+  </app-page-header>
+
+  <!-- Features List Section -->
+  <section class="features-section section">
+    <div class="container">
+      <div class="section-header text-center mb-5" revealOnScroll="fade-up">
+        <h2 class="section-title">The Vaayuvolt Advantage</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="features-simple-list">
+        <ul>
+          @for (feature of features; track feature.title) {
+            <li revealOnScroll="fade-up" [revealDelay]="$index * 30">
+              <strong>{{ feature.title }}:</strong> {{ feature.description }}
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="sectors-banner mt-5" revealOnScroll="fade-up">
+        <h3 class="sectors-title">Industries We Serve</h3>
+        <p class="sectors-text">{{ sectorsText }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section section" revealOnScroll="fade-up">
+    <div class="cta-content">
+      <h2>Ready to Get Started?</h2>
+      <p>Contact us today to discuss your renewable energy needs</p>
+      <a routerLink="/contact" class="btn btn-accent btn-large">Get a Quote</a>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
+<app-whatsapp-fab></app-whatsapp-fab>

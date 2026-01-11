@@ -1,0 +1,114 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+
+<main>
+  <div class="about-page">
+    <app-page-header 
+      title="ABOUT US" 
+      [breadcrumbs]="[{label: 'About Us', url: '/about'}]"
+      bgImage="https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=1920&auto=format&fit=crop">
+    </app-page-header>
+    
+    <!-- About Us Section (Light Theme) -->
+    <section class="about-us-section section light-theme">
+      <div class="container">
+        <!-- Centered Section Headers -->
+        <div class="about-section-header" revealOnScroll="fade-up">
+          <h2 class="section-label">Who We Are</h2>
+          <h1 class="main-headline">Powering India with<br>smart renewables</h1>
+        </div>
+  
+        <!-- About Content (Image + Text) -->
+        <div class="about-content-row">
+          <!-- Left Column - Image -->
+          <div class="about-image-column" revealOnScroll="fade-right" [revealDelay]="200">
+            <img 
+              src="/assets/images/Product 1 img 1.jpeg" 
+              alt="Vaayuvolt Vertical Axis Wind Turbine" 
+              loading="lazy"
+            />
+          </div>
+  
+          <!-- Right Column - Description -->
+          <div class="about-text-column" revealOnScroll="fade-left" [revealDelay]="400">
+            <div class="about-description">
+              <p>
+                Santal Energy is an Indian clean-energy company building engineering-driven wind power
+                solutions for real-world conditions. Founded by a Mechanical Engineer, the company focuses on
+                precision design and reliable manufacturing to deliver practical renewable technologies.
+              </p>
+              <p>
+                Our flagship product, <span class="highlight">Vaayuvolt</span>, is a Vertical Axis Wind Turbine engineered for India's low and
+                variable wind environments. Proudly designed, developed, and manufactured in India, <span class="highlight">Vaayuvolt</span>
+                reflects our commitment to durability, efficiency, and long-term performance—supporting a
+                cleaner, more self-reliant energy future.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Founder's Message Section (Light Theme) -->
+    <section class="founder-message-section section light-theme" revealOnScroll="fade-up">
+      <div class="container">
+        <div class="founder-grid">
+          <!-- Left Column: Text Content -->
+          <div class="founder-text-column" revealOnScroll="fade-right" [revealDelay]="200">
+            <div class="founder-label">FOUNDER’S MESSAGE</div>
+            <h2 class="founder-heading">A Message from the Founder</h2>
+            
+            <div class="founder-body">
+              <p>
+                My journey into wind energy began during my Mechanical Engineering studies, where I worked on a
+                Vertical Axis Wind Turbine project that revealed both the potential and the challenges of wind
+                power in Indian conditions. I realized that for renewable energy to truly succeed, it must be
+                engineered with practicality, reliability, and local realities in mind.
+              </p>
+              <p>
+                With hands-on experience in mechanical design and manufacturing, I founded Vaayuvolt to bridge
+                the gap between theoretical concepts and real-world energy needs. Our goal is to build wind
+                systems that are not only efficient, but durable, serviceable, and suited for long-term operation.
+              </p>
+              <p>
+                Santal Energy represents my commitment to indigenous engineering, clean technology, and
+                contributing meaningfully to India’s renewable energy future.
+              </p>
+            </div>
+  
+            <div class="founder-signature">
+              <span class="founder-name">– Aagam Shah</span>
+              <span class="founder-title">Founder, Santal Energy</span>
+            </div>
+          </div>
+  
+          <!-- Right Column: Image -->
+          <div class="founder-image-column" revealOnScroll="fade-left" [revealDelay]="400">
+            <div class="image-wrapper">
+              <img 
+                src="/assets/images/Founder-Image.jpeg" 
+                alt="Aagam Shah - Founder, Santal Energy" 
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+      
+    <!-- Features Grid (Why Choose Us) Removed as per request -->
+      
+    <!-- CTA Section -->
+    <section class="cta-section section" revealOnScroll="fade-up">
+      <div class="cta-content">
+        <h2>Ready to Get Started?</h2>
+        <p>Contact us today to discuss your renewable energy needs</p>
+        <a routerLink="/contact" class="btn btn-accent btn-large">Get a Quote</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<app-footer></app-footer>
+<app-whatsapp-fab></app-whatsapp-fab>
+

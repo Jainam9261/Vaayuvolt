@@ -1,0 +1,49 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.model-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    // Standard styling consistent with application design
+    background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    cursor: default; // Non-clickable cursor as per request
+
+    // Initial shadow (subtle depth)
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    .model-badge {
+        position: relative;
+        z-index: 1;
+        font-size: 18px;
+        font-weight: 700;
+        // Standard Colors (Teal/Dark) consistent with theme
+        color: var(--brand-dark, #135282);
+        background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+
+        margin-bottom: 12px;
+        padding: 8px 24px;
+        border-radius: 30px;
+        white-space: nowrap;
+    }
+
+    .model-details {
+        position: relative;
+        z-index: 1;
+        font-size: 14px;
+        line-height: 1.6;
+        color: #666;
+    }
+}

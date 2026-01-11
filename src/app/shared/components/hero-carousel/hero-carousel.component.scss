@@ -1,0 +1,303 @@
+// Hero Carousel Wrapper - Full width with centered container
+.hero-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 16px;
+  background: var(--neutral-100); // Neutral background, no black bars
+  min-height: 300px; // Ensure minimum height
+  opacity: 1;
+  visibility: visible;
+
+  @media (max-width: 640px) {
+    padding: 16px 12px;
+    min-height: 250px;
+  }
+
+  @media (min-width: 1920px) {
+    padding: 32px 24px;
+  }
+}
+
+// Centered Hero Container - Maintains 3:2 aspect ratio
+.hero-carousel-container {
+  // Dynamic sizing - let images determine height
+  width: 100%;
+  height: auto;
+  max-width: 1000px;
+  min-height: 300px; // Minimum height for mobile
+
+  // Premium styling
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.12),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+
+  // Always visible, smooth scale-in animation
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Will-change for hardware acceleration
+  will-change: opacity, transform;
+
+  // Animation trigger class - subtle entrance effect
+  .hero-carousel-wrapper.animate-in & {
+    animation: scaleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  // Responsive adjustments
+  @media (max-width: 1400px) {
+    max-width: 100%;
+    border-radius: 16px;
+  }
+
+  @media (max-width: 1024px) {
+    border-radius: 14px;
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.1),
+      0 6px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  @media (max-width: 768px) {
+    border-radius: 12px;
+    min-height: 240px;
+    box-shadow:
+      0 12px 36px rgba(0, 0, 0, 0.08),
+      0 4px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  @media (max-width: 640px) {
+    border-radius: 10px;
+    min-height: 200px;
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.06),
+      0 3px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  @media (max-width: 480px) {
+    border-radius: 8px;
+    min-height: 180px;
+  }
+}
+
+// Animation keyframes
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Swiper container - fills the hero container
+.hero-swiper {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit; // Inherit border-radius from container
+  display: block;
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+
+  swiper-slide {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// Slide content - Image container
+.slide-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--neutral-100); // Ensure background while loading
+
+  // Neutral background behind image (visible during load)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--neutral-100);
+    z-index: -1;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; // Show full image
+    object-position: center;
+    display: block;
+
+    // Show image immediately, smooth fade-in if not cached
+    opacity: 1;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+    // For smooth loading effect - start visible but can enhance on load
+    &.loaded {
+      opacity: 1;
+      animation: fadeInImage 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    // If image is already cached, ensure it's visible
+    &[complete] {
+      opacity: 1;
+    }
+  }
+}
+
+@keyframes fadeInImage {
+  from {
+    opacity: 0.3;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+// Swiper pagination and navigation styles
+::ng-deep {
+  .hero-carousel-container {
+    .swiper-pagination {
+      bottom: 20px !important;
+
+      @media (max-width: 768px) {
+        bottom: 16px !important;
+      }
+
+      @media (max-width: 640px) {
+        bottom: 12px !important;
+      }
+    }
+
+    .swiper-pagination-bullet {
+      background: rgba(255, 255, 255, 0.7);
+      opacity: 0.6;
+      width: 10px;
+      height: 10px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(4px);
+
+      &.swiper-pagination-bullet-active {
+        opacity: 1;
+        background: var(--brand-warm);
+        width: 28px;
+        border-radius: 5px;
+      }
+
+      @media (max-width: 768px) {
+        width: 9px;
+        height: 9px;
+
+        &.swiper-pagination-bullet-active {
+          width: 24px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        width: 8px;
+        height: 8px;
+
+        &.swiper-pagination-bullet-active {
+          width: 20px;
+        }
+      }
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: white;
+      background: rgba(0, 0, 0, 0.4);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.6);
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      &::after {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      @media (max-width: 1024px) {
+        width: 44px;
+        height: 44px;
+
+        &::after {
+          font-size: 18px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        width: 40px;
+        height: 40px;
+
+        &::after {
+          font-size: 16px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        display: none; // Hide on mobile for cleaner UI
+      }
+    }
+
+    // Smooth fade transition
+    .swiper-slide {
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+  }
+}
+
+// Reduce motion for users who prefer it
+@media (prefers-reduced-motion: reduce) {
+  .hero-carousel-container {
+    transition: none;
+
+    &::before {
+      animation: none;
+    }
+  }
+
+  .slide-content img {
+    transition: none;
+  }
+
+  ::ng-deep .hero-carousel-container {
+    .swiper-slide {
+      transition: opacity 0.3s ease !important;
+    }
+
+    .swiper-pagination-bullet {
+      transition: none;
+    }
+  }
+}

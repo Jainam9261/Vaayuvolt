@@ -1,0 +1,33 @@
+<div class="hero-carousel-wrapper" [class.animate-in]="isVisible">
+  <div class="hero-carousel-container">
+    <swiper-container
+      autoplay-delay="3000"
+      autoplay-disable-on-interaction="false"
+      loop="true"
+      pagination-clickable="true"
+      navigation="true"
+      effect="fade"
+      fade-effect-cross-fade="true"
+      speed="800"
+      slides-per-view="1"
+      space-between="0"
+      class="hero-swiper"
+      aria-label="Hero carousel"
+    >
+      @for (slide of slides; track $index) {
+        <swiper-slide>
+          <div class="slide-content">
+            <img 
+              [src]="slide.image" 
+              [alt]="'Hero slide ' + ($index + 1)"
+              loading="eager"
+              (load)="onImageLoad($event)"
+              (error)="onImageError($event, $index)"
+              [class.loaded]="imageLoaded[$index]"
+            />
+          </div>
+        </swiper-slide>
+      }
+    </swiper-container>
+  </div>
+</div>

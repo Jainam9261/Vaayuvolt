@@ -1,0 +1,113 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+
+<main>
+  <section class="contact-section">
+    <app-page-header 
+      title="Contact Us" 
+      [breadcrumbs]="[{label: 'Contact', url: '/contact'}]"
+      bgImage="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1920&auto=format&fit=crop">
+    </app-page-header>
+    
+    <div class="container">
+
+      <div class="contact-content">
+        <div class="contact-info" revealOnScroll="fade-right">
+          <h2>Get in Touch</h2>
+          <h1>Let’s Power the Future Together</h1>
+          <p>
+            Reach out to VaayuVolt for smart, reliable wind energy solutions built for India.
+          </p>
+          <div class="contact-info-image">
+            <img src="assets/images/Contact-us.png" alt="Contact Us" />
+          </div>
+        </div>
+
+
+        <div class="contact-form-wrapper" revealOnScroll="fade-left">
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="modern-contact-form">
+            <!-- Honeypot field (hidden) -->
+            <input type="text" formControlName="honeypot" class="sr-only" tabindex="-1" autocomplete="off" />
+
+            <div class="form-grid">
+              <!-- Name (Required, Alpha) -->
+              <div class="form-group">
+                <label for="name">Full Name <span class="required">*</span></label>
+                <div class="input-wrapper">
+                  <input type="text" id="name" formControlName="name" placeholder="Enter your full name"
+                         (input)="onNameInput($event)" />
+                </div>
+                @if (getFieldError('name')) {
+                  <span class="error-message">{{ getFieldError('name') }}</span>
+                }
+              </div>
+
+              <!-- Email (Required) -->
+              <div class="form-group">
+                <label for="email">Email Address <span class="required">*</span></label>
+                <div class="input-wrapper">
+                  <input type="email" id="email" formControlName="email" placeholder="Enter your email address" />
+                </div>
+                @if (getFieldError('email')) {
+                  <span class="error-message">{{ getFieldError('email') }}</span>
+                }
+              </div>
+
+              <!-- Phone (Required, Numeric) -->
+              <div class="form-group">
+                <label for="phone">Mobile Number <span class="required">*</span></label>
+                <div class="input-wrapper">
+                  <input type="tel" id="phone" formControlName="phone" placeholder="Enter your mobile number"
+                         (input)="onPhoneInput($event)" />
+                </div>
+                @if (getFieldError('phone')) {
+                  <span class="error-message">{{ getFieldError('phone') }}</span>
+                }
+              </div>
+
+
+            </div>
+
+            <div class="form-group full-width">
+              <label for="message">Message <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <textarea id="message" formControlName="message" rows="6" placeholder="Tell us briefly about your requirement"></textarea>
+              </div>
+              @if (getFieldError('message')) {
+                <span class="error-message">{{ getFieldError('message') }}</span>
+              }
+            </div>
+
+            @if (submitError) {
+              <div class="form-status error">{{ submitError }}</div>
+            }
+
+            @if (submitSuccess) {
+              <div class="form-status success">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+                <span>Message sent successfully!</span>
+              </div>
+            }
+
+            <div class="form-actions">
+              <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+                @if (isSubmitting) {
+                  <span class="spinner"></span> Sending...
+                } @else {
+                  Send Message
+                }
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
+<app-whatsapp-fab></app-whatsapp-fab>
+
+

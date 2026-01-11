@@ -1,0 +1,257 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+
+<main>
+  <!-- Hero Carousel -->
+  <app-hero-carousel></app-hero-carousel>
+
+
+
+  <!-- About Us Section (Premium Dark Theme) -->
+  <section class="about-us-section section">
+    <div class="container">
+      <!-- Centered Section Headers -->
+      <div class="section-header text-center" revealOnScroll="fade-up">
+        <h2>ABOUT US</h2>
+      </div>
+
+      <!-- About Content (Image + Text) -->
+      <div class="about-content-row">
+        <!-- Left Column - Image -->
+        <div class="about-image-column" revealOnScroll="fade-right" [revealDelay]="200">
+          <img 
+            src="/assets/images/Product 1 img 1.jpeg" 
+            alt="VaayuVolt Vertical Axis Wind Turbine" 
+            loading="lazy"
+          />
+        </div>
+
+        <!-- Right Column - Description -->
+        <div class="about-text-column" revealOnScroll="fade-left" [revealDelay]="400">
+          <h1 class="main-headline">Powering India<br>with smart<br>renewables</h1>
+          <div class="about-description">
+            <p>
+              Santal Energy is an Indian clean-energy company building engineering-driven wind power
+              solutions for real-world conditions. Founded by a Mechanical Engineer, the company focuses on
+              precision design and reliable manufacturing to deliver practical renewable technologies.
+            </p>
+            <p>
+              Our flagship product, <span class="highlight">Vaayuvolt</span>, is a Vertical Axis Wind Turbine engineered for India's low and
+              variable wind environments. Proudly designed, developed, and manufactured in India, <span class="highlight">Vaayuvolt</span>
+              reflects our commitment to durability, efficiency, and long-term performance—supporting a
+              cleaner, more self-reliant energy future.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Preview Section (Moved Here) -->
+  <section class="products-preview-section section" revealOnScroll="fade-up">
+    <div class="container">
+      <div class="section-header text-center" revealOnScroll="fade-up">
+        <h2>PRODUCTS</h2>
+        <div class="section-intro-text" style="max-width: 900px; margin: 0 auto; line-height: 1.8; font-size: 18px; color: #555;">
+          <p>
+            VaayuVolt is a portable, rooftop ready Vertical Axis Wind Turbine built for India’s real real-world wind conditions. It produces clean, steady electricity even in low or shifting winds. Designed for rooftops, silent and versatile, VaayuVolt supports hybrid systems, lowers energy costs, enhances reliability, and brings practical renewable power to homes, businesses, and remote sites.
+          </p>
+        </div>
+      </div>
+      <div class="products-grid simple-grid">
+        @for (product of featuredProducts; track product.id) {
+          <a [href]="'/products#' + (product.id === 1 ? 'wind-1' : product.id === 2 ? 'hybrid-2' : 'hybrid-3')" class="product-preview-card-link" style="text-decoration: none; color: inherit; display: block;">
+            <div class="product-preview-card" revealOnScroll="fade-up" [revealDelay]="$index * 100">
+              <div class="product-image-wrapper">
+                <img [src]="product.image" [alt]="product.name" loading="lazy" />
+              </div>
+              <h3 class="product-title">{{ product.name }}</h3>
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder's Message Section -->
+  <section class="founder-message-section section" revealOnScroll="fade-up">
+    <div class="container">
+      <div class="founder-grid">
+        <!-- Left Column: Text Content -->
+        <div class="founder-text-column" revealOnScroll="fade-right" [revealDelay]="200">
+          <div class="founder-label">FOUNDER’S MESSAGE</div>
+          <h2 class="founder-heading">A Message from the Founder</h2>
+          
+          <div class="founder-body">
+            <p>
+              My journey into wind energy began during my Mechanical Engineering studies, where I worked on a
+              Vertical Axis Wind Turbine project that revealed both the potential and the challenges of wind
+              power in Indian conditions. I realized that for renewable energy to truly succeed, it must be
+              engineered with practicality, reliability, and local realities in mind.
+            </p>
+            <p>
+              With hands-on experience in mechanical design and manufacturing, I founded Vaayuvolt to bridge
+              the gap between theoretical concepts and real-world energy needs. Our goal is to build wind
+              systems that are not only efficient, but durable, serviceable, and suited for long-term operation.
+            </p>
+            <p>
+              Santal Energy represents my commitment to indigenous engineering, clean technology, and
+              contributing meaningfully to India’s renewable energy future.
+            </p>
+          </div>
+
+          <div class="founder-signature">
+            <span class="founder-name">– Aagam Shah</span>
+            <span class="founder-title">Founder, Santal Energy</span>
+          </div>
+        </div>
+
+        <!-- Right Column: Image -->
+        <div class="founder-image-column" revealOnScroll="fade-left" [revealDelay]="400">
+          <div class="image-wrapper">
+            <img 
+              src="/assets/images/Founder-Image.jpeg" 
+              alt="Aagam Shah - Founder, Santal Energy" 
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Home FAQs Section -->
+  <section class="home-faqs-section section" revealOnScroll="fade-up">
+    <div class="container">
+      <div class="section-header text-center" revealOnScroll="fade-up">
+        <h2>Frequently Asked Questions</h2>
+      </div>
+      
+      <div class="faqs-container">
+        @for (faq of homeFaqs; track faq.id) {
+          <div class="faq-item" revealOnScroll="fade-up" [revealDelay]="$index * 50">
+            <button 
+              class="faq-question" 
+              (click)="toggleFaq(faq.id)"
+              [class.active]="isFaqOpen(faq.id)"
+              [attr.aria-expanded]="isFaqOpen(faq.id)"
+              type="button"
+            >
+              <span>{{ faq.question }}</span>
+              <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 10l5 5 5-5z"/>
+              </svg>
+            </button>
+            <div class="faq-answer" [class.open]="isFaqOpen(faq.id)">
+              <div class="faq-answer-content">
+                <p>{{ faq.answer }}</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="view-all-faqs text-center" style="margin-top: 40px;">
+        <a routerLink="/faqs" class="btn btn-primary btn-large" style="min-width: 200px;">
+          View All FAQs
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section class="contact-form-section section" revealOnScroll="fade-up">
+    <div class="container">
+      <div class="contact-card-wrapper">
+        <div class="contact-header">
+          <h2>Get in Touch</h2>
+          <p>Let's power your journey with smart wind energy solutions.</p>
+        </div>
+        
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="modern-contact-form">
+          <!-- Honeypot -->
+          <input type="text" formControlName="honeypot" class="sr-only" tabindex="-1" autocomplete="off" />
+
+          <div class="form-grid">
+            <!-- Name (Required, Alpha) -->
+            <div class="form-group">
+              <label for="home-name">Full Name <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <input type="text" id="home-name" formControlName="name" placeholder="Enter your full name" 
+                       (input)="onNameInput($event)"/>
+              </div>
+              @if (getFieldError('name')) {
+                <span class="error-message">{{ getFieldError('name') }}</span>
+              }
+            </div>
+
+            <!-- Email (Required) -->
+            <div class="form-group">
+              <label for="home-email">Email Address <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <input type="email" id="home-email" formControlName="email" placeholder="Enter your email address"/>
+              </div>
+              @if (getFieldError('email')) {
+                <span class="error-message">{{ getFieldError('email') }}</span>
+              }
+            </div>
+
+            <!-- Phone (Required, Numeric) -->
+            <div class="form-group">
+              <label for="home-phone">Mobile Number <span class="required">*</span></label>
+              <div class="input-wrapper">
+                <input type="tel" id="home-phone" formControlName="phone" placeholder="Enter your mobile number"
+                       (input)="onPhoneInput($event)"/>
+              </div>
+              @if (getFieldError('phone')) {
+                <span class="error-message">{{ getFieldError('phone') }}</span>
+              }
+          </div>
+
+          </div>
+
+          <!-- Message -->
+          <div class="form-group full-width">
+            <label for="home-message">Message <span class="required">*</span></label>
+            <div class="input-wrapper">
+              <textarea id="home-message" formControlName="message" rows="4" placeholder="Tell us briefly about your requirement"></textarea>
+            </div>
+            @if (getFieldError('message')) {
+              <span class="error-message">{{ getFieldError('message') }}</span>
+            }
+          </div>
+
+          @if (submitError) {
+            <div class="form-status error">{{ submitError }}</div>
+          }
+
+          @if (submitSuccess) {
+            <div class="form-status success">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+              </svg>
+              <span>Message sent successfully!</span>
+            </div>
+          }
+
+          <!-- Submit Button -->
+          <div class="form-actions">
+            <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+              @if (isSubmitting) {
+                <span class="spinner"></span> Sending...
+              } @else {
+                Send Message
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
+<app-whatsapp-fab></app-whatsapp-fab>
+
+
+

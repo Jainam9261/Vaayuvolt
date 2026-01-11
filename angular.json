@@ -29,6 +29,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
               }
             ],
             "styles": [
@@ -60,7 +65,8 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "namedChunks": false
             }
           },
           "defaultConfiguration": "production"
@@ -93,6 +99,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
               }
             ],
             "styles": [
@@ -103,5 +114,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "93860d8e-342f-4806-a8e0-05b288a94e0b"
   }
 }

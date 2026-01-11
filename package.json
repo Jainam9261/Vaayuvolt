@@ -2,15 +2,17 @@
   "name": "vaayuvolt",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "ng": "node --max-old-space-size=12288 node_modules/@angular/cli/bin/ng.js",
+    "start": "node --max-old-space-size=12288 node_modules/@angular/cli/bin/ng.js serve",
+    "start:dev": "node --max-old-space-size=12288 node_modules/@angular/cli/bin/ng.js serve --configuration development",
+    "build": "node --max-old-space-size=12288 node_modules/@angular/cli/bin/ng.js build",
+    "watch": "node --max-old-space-size=12288 node_modules/@angular/cli/bin/ng.js build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:Vaayuvolt": "node dist/vaayuvolt/server/server.mjs"
+    "serve:ssr:Vaayuvolt": "node --max-old-space-size=12288 dist/vaayuvolt/server/server.mjs"
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^19.2.0",
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
     "@angular/core": "^19.2.0",
@@ -22,6 +24,7 @@
     "@angular/ssr": "^19.2.10",
     "express": "^4.18.2",
     "rxjs": "~7.8.0",
+    "swiper": "^12.0.3",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },

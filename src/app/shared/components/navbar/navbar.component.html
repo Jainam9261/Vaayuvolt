@@ -1,0 +1,75 @@
+<nav class="navbar" [class.scrolled]="isScrolled()">
+  <div class="container">
+    <div class="navbar-content">
+      <!-- Logo -->
+      <a routerLink="/" class="navbar-logo" (click)="navigateAndClose()" aria-label="VaayuVolt Home">
+        <img src="/assets/images/MainLogo.png" alt="Vaayuvolt Logo" class="logo-img" />
+      </a>
+
+      <!-- Desktop Menu -->
+      <ul class="navbar-menu" [class.menu-open]="menuOpen()">
+        @for (link of navLinks; track link.path) {
+          @if (link.hasDropdown) {
+            <li class="dropdown-container" 
+                (mouseenter)="onMouseEnter()" 
+                (mouseleave)="onMouseLeave()"
+                [class.dropdown-open]="productsDropdownOpen()">
+              <a 
+                [routerLink]="link.path" 
+                routerLinkActive="active"
+                (click)="toggleProductsDropdown(); $event.preventDefault()"
+                class="dropdown-trigger"
+              >
+                {{ link.label }}
+                <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7 10l5 5 5-5z"/>
+                </svg>
+              </a>
+              <ul class="dropdown-menu">
+                @for (product of productDropdownItems; track product.id) {
+                  <li>
+                    <a (click)="navigateToProduct(product.id)" [routerLink]="product.path">
+                      {{ product.label }}
+                    </a>
+                  </li>
+                }
+              </ul>
+            </li>
+          } @else {
+            <li>
+              <a 
+                [routerLink]="link.path" 
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: link.path === '/'}"
+                (click)="navigateAndClose()"
+              >
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        }
+      </ul>
+
+      <!-- CTA Button -->
+      <div class="navbar-actions">
+        <a routerLink="/contact" class="btn btn-accent" (click)="navigateAndClose()">
+          Get a Quote
+        </a>
+        
+        <!-- Hamburger Menu Toggle -->
+        <button 
+          class="hamburger" 
+          [class.active]="menuOpen()"
+          (click)="toggleMenu()"
+          [attr.aria-expanded]="menuOpen()"
+          aria-label="Toggle navigation menu"
+          aria-controls="navbar-menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

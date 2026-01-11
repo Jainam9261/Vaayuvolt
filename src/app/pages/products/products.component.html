@@ -1,0 +1,133 @@
+<app-topbar></app-topbar>
+<app-navbar></app-navbar>
+
+<main>
+  <section class="products-page">
+    <app-page-header 
+      title="PRODUCTS" 
+      [breadcrumbs]="[{label: 'Products', url: '/products'}]"
+      bgImage="https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?q=80&w=1920&auto=format&fit=crop">
+    </app-page-header>
+
+    <div class="container">
+      <div class="section-intro" revealOnScroll="fade-up">
+        <p class="brand-description">
+          VaayuVolt is a portable, rooftop ready Vertical Axis Wind Turbine built for India's real wind conditions. It produces clean, steady electricity even in low or shifting winds. Designed for rooftops, silent and versatile, VaayuVolt supports hybrid systems, lowers energy costs, enhances reliability, and brings practical renewable power to homes, businesses, and remote sites.
+        </p>
+      </div>
+      
+      <!-- Product List Layout -->
+      <div class="product-list-container">
+        @for (product of products; track product.id) {
+          <article [id]="product.id" class="product-full-section" revealOnScroll="fade-up">
+            
+            <!-- Title moved outside and above the content grid -->
+            <h2 class="product-title-centered">{{ product.name }}</h2>
+
+            <div class="product-main-content" [class.layout-center]="product.id === 'hybrid-3'">
+              <!-- Left: Interactive Image Gallery -->
+              <div class="product-gallery">
+                <!-- Main Image Display -->
+                <div class="main-image-container">
+                  @if (product.images && product.images.length > 0) {
+                    <div class="image-wrapper">
+                      <img 
+                        [src]="product.images[getActiveImage(product.id)]" 
+                        [alt]="product.name" 
+                        loading="lazy" 
+                        class="main-product-image" />
+                      
+                      <!-- Image counter badge -->
+                      @if (product.images.length > 1) {
+                        <div class="image-counter">
+                          {{ getActiveImage(product.id) + 1 }} / {{ product.images.length }}
+                        </div>
+                      }
+                    </div>
+                  } @else {
+                    <div class="image-wrapper">
+                      <img 
+                        [src]="product.image" 
+                        [alt]="product.name" 
+                        loading="lazy" 
+                        class="main-product-image" />
+                    </div>
+                  }
+                </div>
+
+                <!-- Thumbnail Navigation (only if multiple images) -->
+                @if (product.images && product.images.length > 1) {
+                  <div class="image-thumbnails">
+                    @for (img of product.images; track img; let i = $index) {
+                      <div 
+                        class="thumbnail-wrapper"
+                        [class.active]="getActiveImage(product.id) === i"
+                        (click)="selectImage(product.id, i)">
+                        <img [src]="img" [alt]="product.name + ' - Image ' + (i + 1)" loading="lazy" />
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <!-- Right: Product Details -->
+              <div class="product-info-column">
+                
+                <div class="product-desc">
+                  <p>{{ product.description }}</p>
+                </div>
+
+                <!-- Specifications -->
+                <div class="product-specs-block">
+                  <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                    Technical Specifications
+                  </h3>
+                  <ul class="specs-grid">
+                    @for (spec of product.specs; track spec) {
+                      <li class="spec-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="spec-icon">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>{{ spec }}</span>
+                      </li>
+                    }
+                  </ul>
+                </div>
+
+                <!-- Models / Configuration -->
+                @if (product.models) {
+                  <div class="product-models-block">
+                    <h3>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                      </svg>
+                      Available Models
+                    </h3>
+                    <div class="models-grid">
+                      @for (model of product.models; track model.name) {
+                        <app-model-card [model]="model" class="model-card-wrapper"></app-model-card>
+                      }
+                    </div>
+                  </div>
+                }
+                
+                <!-- Removed Get Quote Button -->
+              </div>
+            </div>
+
+          </article>
+        }
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
+<app-whatsapp-fab></app-whatsapp-fab>

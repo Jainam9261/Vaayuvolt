@@ -1,0 +1,26 @@
+<div class="product-card">
+  <div class="product-image">
+    <img 
+      [ngSrc]="product.image" 
+      [alt]="product.name"
+      width="400"
+      height="300"
+      priority="false"
+    />
+  </div>
+  <div class="product-content">
+    <h3 class="product-name">{{ product.name }}</h3>
+    <p class="product-description">{{ product.description }}</p>
+    <ul class="product-specs">
+      @for (spec of product.specs; track spec) {
+        <li>{{ spec }}</li>
+      }
+    </ul>
+    <button class="btn btn-primary" (click)="onViewClick()">
+      View Details
+    </button>
+  </div>
+</div>
+
+
+
