@@ -8,12 +8,10 @@ import { WhatsAppFabComponent } from '../../shared/components/whatsapp-fab/whats
 import { RevealOnScrollDirective } from '../../shared/directives/reveal-on-scroll.directive';
 import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
 import { CONTACT_INFO } from '../../core/constants/contact.constants';
+import { ToastService } from '../../core/services/toast.service';
+import { environment } from '../../../environments/environment';
 
-/**
- * ContactComponent
- * 
- * Contact page with reactive form for inquiries and quote requests.
- */
+// Contact page component for handling inquiries and quote requests
 @Component({
   selector: 'app-contact',
   standalone: true,
@@ -43,17 +41,26 @@ export class ContactComponent {
     email: CONTACT_INFO.EMAIL
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private toastService: ToastService
+  ) {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
-      message: ['', [Validators.required, Validators.minLength(10)]],
+      message: ['', [Validators.required]],
       honeypot: [''] // Spam prevention
     });
   }
 
-  onSubmit(): void {
+  // Handles contact form submission process
+  onSubmit(event?: Event): void {
+    // Prevent default form submission
+    if (event) {
+      event.preventDefault();
+    }
+
     // Reset validation errors
     this.formValidationError = false;
     this.formErrors = [];
@@ -75,50 +82,50 @@ export class ContactComponent {
       return;
     }
 
-    // Check honeypot
+    // Validate honeypot field to block bots
     if (this.contactForm.value.honeypot) {
       return; // Bot detected, silently fail
     }
 
-    // Prepare mailto link
-    const { name, email, phone, message } = this.contactForm.value;
+    // Send data to backend API avoiding preflight requests
+    this.isSubmitting = true;
 
-    const subject = 'New Contact Form Inquiry';
+    const body = new URLSearchParams();
+    body.set('fullName', this.contactForm.value.name);
+    body.set('email', this.contactForm.value.email.toLowerCase());
+    body.set('mobile', this.contactForm.value.phone);
+    body.set('message', this.contactForm.value.message);
+    body.set('secret', environment.contactSecret);
 
-    // Build email body with proper line breaks
-    const bodyLines = [
-      '=================================',
-      'CONTACT FORM SUBMISSION',
-      '=================================',
-      '',
-      `Full Name: ${name}`,
-      `Email: ${email}`,
-      `Mobile Number: ${phone}`,
-      '',
-      'MESSAGE:',
-      '---',
-      message || 'No message provided',
-      '',
-      '=================================',
-    ];
+    fetch(environment.contactApiUrl, {
+      method: 'POST',
+      body: body
+    })
+      .then(res => res.json())
+      .then(res => {
+        this.isSubmitting = false;
+        if (res.status === 'success') {
+          this.submitSuccess = true;
+          this.toastService.success('Thank you for reaching out. We have received your message and will be in touch soon.');
+          this.contactForm.reset();
 
-    const body = bodyLines.join('%0D%0A');
-
-    const mailtoLink = `mailto:${CONTACT_INFO.EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`;
-
-    // Open email client
-    window.location.href = mailtoLink;
-
-    // Show success message
-    this.submitSuccess = true;
-    this.contactForm.reset();
-
-    // Reset success message after 5 seconds
-    setTimeout(() => {
-      this.submitSuccess = false;
-    }, 5000);
+          // Auto-hide success message after delay
+          setTimeout(() => {
+            this.submitSuccess = false;
+          }, 5000);
+        } else {
+          this.submitError = 'Submission failed. Please try again.';
+          this.toastService.error('We were unable to send your message at this time. Please try again shortly.');
+        }
+      })
+      .catch(() => {
+        this.isSubmitting = false;
+        this.submitError = 'Network error. Please try again later.';
+        this.toastService.error('We were unable to send your message at this time. Please try again shortly.');
+      });
   }
 
+  // Marks all form controls as touched to display validation errors
   private markFormGroupTouched(formGroup: FormGroup): void {
     Object.keys(formGroup.controls).forEach(key => {
       const control = formGroup.get(key);
@@ -126,6 +133,7 @@ export class ContactComponent {
     });
   }
 
+  // Returns validation error message for a specific field
   getFieldError(fieldName: string): string {
     const field = this.contactForm.get(fieldName);
     if (field?.errors && field?.touched) {
@@ -139,13 +147,11 @@ export class ContactComponent {
         if (fieldName === 'name') return 'Name must contain only alphabets';
         if (fieldName === 'phone') return 'Phone must contain only numbers';
       }
-      if (field.errors['minlength']) {
-        return `Message must be at least ${field.errors['minlength'].requiredLength} characters`;
-      }
     }
     return '';
   }
 
+  // Enforces strict alphabetic input for name field
   onNameInput(event: any): void {
     const input = event.target as HTMLInputElement;
     // Replace anything that is NOT a letter or space
@@ -153,6 +159,7 @@ export class ContactComponent {
     this.contactForm.get('name')?.setValue(input.value);
   }
 
+  // Enforces strict numeric input for phone field
   onPhoneInput(event: any): void {
     const input = event.target as HTMLInputElement;
     // Replace anything that is NOT a number

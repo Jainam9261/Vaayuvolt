@@ -14,11 +14,7 @@ export interface FAQ {
   answer: string;
 }
 
-/**
- * FAQsComponent
- * 
- * FAQs page with updated questions about VaayuVolt.
- */
+// FAQ page component displaying frequently asked questions
 @Component({
   selector: 'app-faqs',
   standalone: true,
@@ -168,6 +164,7 @@ This ensures correct sizing and performance expectations.`
     }
   ];
 
+  // Toggles the expansion state of a specific FAQ item
   toggleFaq(id: number): void {
     if (this.openFaqId() === id) {
       this.openFaqId.set(null);
@@ -176,6 +173,7 @@ This ensures correct sizing and performance expectations.`
     }
   }
 
+  // Checks if an FAQ item is currently expanded
   isFaqOpen(id: number): boolean {
     return this.openFaqId() === id;
   }

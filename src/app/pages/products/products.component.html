@@ -78,24 +78,26 @@
                 </div>
 
                 <!-- Specifications -->
-                <div class="product-specs-block">
-                  <h3>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                    </svg>
-                    Technical Specifications
-                  </h3>
-                  <ul class="specs-grid">
-                    @for (spec of product.specs; track spec) {
-                      <li class="spec-item">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="spec-icon">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <span>{{ spec }}</span>
-                      </li>
-                    }
-                  </ul>
-                </div>
+                @if (product.specs && product.specs.length > 0) {
+                  <div class="product-specs-block">
+                    <h3>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                      </svg>
+                      {{ product.specsHeading || 'Technical Specifications' }}
+                    </h3>
+                    <ul class="specs-grid" [class.simple-list]="product.id === 'wind-1'">
+                      @for (spec of product.specs; track spec) {
+                        <li class="spec-item">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="spec-icon">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                          <span>{{ spec }}</span>
+                        </li>
+                      }
+                    </ul>
+                  </div>
+                }
 
                 <!-- Models / Configuration -->
                 @if (product.models) {
@@ -107,13 +109,35 @@
                         <rect x="14" y="14" width="7" height="7"></rect>
                         <rect x="3" y="14" width="7" height="7"></rect>
                       </svg>
-                      Available Models
+                      {{ product.modelsHeading || 'Available Models' }}
                     </h3>
-                    <div class="models-grid">
-                      @for (model of product.models; track model.name) {
-                        <app-model-card [model]="model" class="model-card-wrapper"></app-model-card>
-                      }
-                    </div>
+
+                    @if (product.id === 'hybrid-2' || product.id === 'hybrid-3' || product.id === 'wind-1') {
+                      <!-- Custom Detail List Layout for Product 1, 2 & 3 -->
+                      <div class="detailed-models-list" 
+                           [class.grid-layout]="product.id === 'hybrid-3'"
+                           [class.compact-grid]="product.id === 'wind-1'">
+                        @for (model of product.models; track model.name) {
+                          <div class="detailed-model-item">
+                            <h4>{{ model.name }}</h4>
+                            @if (model.specs) {
+                              <ul class="detailed-specs-list">
+                                @for (spec of model.specs; track spec) {
+                                  <li>{{ spec }}</li>
+                                }
+                              </ul>
+                            }
+                          </div>
+                        }
+                      </div>
+                    } @else {
+                      <!-- Standard Card Grid for other products -->
+                      <div class="models-grid">
+                        @for (model of product.models; track model.name) {
+                          <app-model-card [model]="model" class="model-card-wrapper"></app-model-card>
+                        }
+                      </div>
+                    }
                   </div>
                 }
                 

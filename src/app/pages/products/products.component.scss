@@ -437,6 +437,43 @@
         gap: 12px;
       }
 
+      // Simple List Modifier (No Cards)
+      &.simple-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0; // Tighter spacing like a list
+
+        .spec-item {
+          background: transparent;
+          box-shadow: none;
+          border: none;
+          border-left: none; // Remove left border accent
+          padding: 8px 0;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+          border-radius: 0;
+          font-size: 1rem;
+          color: #555;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &:hover {
+            transform: translateX(4px);
+            background: transparent;
+            box-shadow: none;
+            color: var(--brand-primary);
+          }
+
+          .spec-icon {
+            // Keep icon or adjust if needed. Keeping it for consistency but maybe simpler.
+            color: var(--brand-primary);
+            width: 14px;
+            height: 14px;
+          }
+        }
+      }
+
       .spec-item {
         background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         padding: 16px 20px;
@@ -516,104 +553,123 @@
         display: block;
       }
 
-      .model-card {
-        background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 100%);
-        border: 2px solid #e2e8f0;
-        border-radius: 16px;
-        padding: 24px 20px;
-        text-align: center;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      // ... (existing .model-card styles if you want to keep them here for reference or fallback, 
+      // but strictly we are trusting app-model-card component mainly. 
+      // Although sticking to the provided view_file content, the internal .model-card styles are present 
+      // and define the grid items' look if they weren't components. 
+      // The current template uses <app-model-card>, so these styles might be redundant 
+      // UNLESS app-model-card uses ViewEncapsulation.None or similar, or styles are copied there.)
+    }
+
+    // New Detailed List Styles for Product 2 (Non-Card Layout)
+    .detailed-models-list {
+      display: flex;
+      flex-direction: column;
+      gap: 40px; // Large gap between models
+      margin-top: 24px;
+      width: 100%;
+
+      // Grid Layout Modifier for Product 3
+      &.grid-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr; // 2 columns side by side
+        gap: 40px;
+        align-items: start; // Align to top
+
+        @media(max-width: 700px) {
+          grid-template-columns: 1fr; // Stack on smaller screens (mobile)
+          gap: 40px;
+        }
+      }
+
+      // Compact Grid Modifier for Product 1 (Simple Names)
+      &.compact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 20px;
+        align-items: center;
+
+        .detailed-model-item {
+          padding-bottom: 0; // No bottom padding needed as it's a grid of names
+
+          h4 {
+            margin-bottom: 0; // Center text vertically in the item
+            font-size: 1.1rem;
+          }
+        }
+      }
+
+      .detailed-model-item {
         position: relative;
-        overflow: hidden;
-        cursor: pointer;
+        padding-left: 24px;
+        padding-bottom: 24px; // Spacing for divider if needed, or visual breathing room
 
-        @media(max-width: 768px) {
-          padding: 20px 16px;
-          border-radius: 14px;
-        }
-
-        @media(max-width: 480px) {
-          padding: 16px 12px;
-          border-radius: 12px;
-        }
-
-        // Gradient overlay on hover
+        // Beautiful left accent line
         &::before {
           content: '';
           position: absolute;
-          top: 0;
           left: 0;
-          right: 0;
+          top: 8px;
           bottom: 0;
-          background: linear-gradient(135deg,
-              rgba(32, 183, 199, 0.1) 0%,
-              rgba(19, 82, 130, 0.1) 100%);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          z-index: 0;
+          width: 4px;
+          background: linear-gradient(180deg, var(--brand-primary, #20b2aa) 0%, transparent 100%);
+          border-radius: 4px;
         }
 
-        &:hover {
-          border-color: var(--brand-teal);
-          transform: translateY(-6px) scale(1.02);
-          box-shadow:
-            0 12px 30px rgba(32, 183, 199, 0.2),
-            0 4px 10px rgba(0, 0, 0, 0.08);
-
-          @media(max-width: 768px) {
-            transform: translateY(-4px) scale(1.01);
-          }
-
-          &::before {
-            opacity: 1;
-          }
-
-          .model-badge {
-            background: var(--brand-primary);
-            color: white;
-          }
-        }
-
-        .model-badge {
+        h4 {
+          font-size: 1.35rem;
           font-weight: 700;
-          color: var(--brand-primary);
-          background: rgba(19, 82, 130, 0.1);
-          padding: 8px 16px;
-          border-radius: 20px;
-          display: inline-block;
-          margin-bottom: 12px;
-          font-size: 15px;
-          transition: all 0.3s ease;
-          position: relative;
-          z-index: 1;
+          color: var(--brand-dark, #135282);
+          margin: 0 0 20px 0;
+          letter-spacing: 0.5px;
+          line-height: 1.4;
 
           @media(max-width: 768px) {
-            font-size: 14px;
-            padding: 6px 14px;
-            margin-bottom: 10px;
-          }
-
-          @media(max-width: 480px) {
-            font-size: 13px;
-            padding: 6px 12px;
+            font-size: 1.15rem;
+            margin-bottom: 16px;
           }
         }
 
-        .model-details {
-          font-size: 13px;
-          color: #64748b;
-          line-height: 1.6;
-          font-weight: 500;
-          position: relative;
-          z-index: 1;
+        .detailed-specs-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
 
-          @media(max-width: 768px) {
-            font-size: 12px;
+          li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            color: #555;
+            font-size: 1rem;
+            display: flex;
+            align-items: flex-start; // Align top in case of wrapping
+            gap: 12px;
+            transition: transform 0.2s ease, color 0.2s ease;
             line-height: 1.5;
-          }
 
-          @media(max-width: 480px) {
-            font-size: 11px;
+            @media(max-width: 768px) {
+              font-size: 0.95rem;
+              padding: 8px 0;
+            }
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            &:hover {
+              color: var(--brand-dark, #135282);
+              transform: translateX(4px);
+            }
+
+            // Bullet styling
+            &::before {
+              content: '';
+              width: 8px;
+              height: 8px;
+              background-color: var(--brand-primary, #20b2aa);
+              border-radius: 50%;
+              flex-shrink: 0;
+              margin-top: 7px; // Visual center with text
+            }
           }
         }
       }

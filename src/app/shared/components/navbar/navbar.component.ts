@@ -2,12 +2,7 @@ import { Component, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-/**
- * NavbarComponent
- * 
- * Main navigation bar with logo, menu links, and Get a Quote button.
- * Sticky on scroll, responsive with hamburger menu for mobile.
- */
+// Responsive navigation bar component with sticky positioning and mobile menu
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -42,11 +37,20 @@ export class NavbarComponent {
   }
 
   toggleMenu(): void {
-    this.menuOpen.update(value => !value);
+    const isOpen = !this.menuOpen();
+    this.menuOpen.set(isOpen);
+    this.updateBodyScroll(isOpen);
   }
 
   closeMenu(): void {
     this.menuOpen.set(false);
+    this.updateBodyScroll(false);
+  }
+
+  private updateBodyScroll(lock: boolean): void {
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = lock ? 'hidden' : '';
+    }
   }
 
   navigateAndClose(): void {
@@ -54,7 +58,7 @@ export class NavbarComponent {
   }
 
   toggleProductsDropdown(): void {
-    // On mobile, toggle on click; on desktop, handled by hover
+    // Toggles product dropdown based on device type
     if (window.innerWidth <= 1024) {
       this.productsDropdownOpen.update(value => !value);
     }
@@ -67,14 +71,14 @@ export class NavbarComponent {
   navigateToProduct(productId: string): void {
     this.closeProductsDropdown();
     this.closeMenu();
-    // Map product IDs to actual product IDs on the page
+    // Resolve internal product IDs to DOM element IDs
     const productMap: { [key: string]: string } = {
       'wind-turbine': 'wind-1',
       'street-light': 'hybrid-2',
       'hybrid-turbine': 'hybrid-3'
     };
     const actualId = productMap[productId] || productId;
-    // Navigate to products page with hash
+    // Perform navigation with fragment identifier
     window.location.href = `/products#${actualId}`;
   }
 

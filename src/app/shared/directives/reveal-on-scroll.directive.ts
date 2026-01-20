@@ -1,15 +1,7 @@
-import { Directive, ElementRef, Input, AfterViewInit, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Input, AfterViewInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
-/**
- * RevealOnScrollDirective
- * 
- * Adds animation classes when element becomes visible in viewport.
- * Uses IntersectionObserver for performance.
- * 
- * Usage:
- *   <div revealOnScroll="fade-up">Content</div>
- *   <div revealOnScroll="fade-left" [revealDelay]="100">Content</div>
- */
+// Directive to trigger animations when elements scroll into view
 @Directive({
   selector: '[revealOnScroll]',
   standalone: true
@@ -21,46 +13,45 @@ export class RevealOnScrollDirective implements AfterViewInit, OnDestroy {
 
   private observer?: IntersectionObserver;
 
-  constructor(private el: ElementRef<HTMLElement>) {}
+  constructor(private el: ElementRef<HTMLElement>, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngAfterViewInit(): void {
-    // Check if IntersectionObserver is available (browser environment)
-    if (typeof IntersectionObserver === 'undefined') {
-      // SSR or browser doesn't support it - just show the element immediately
+    // Check for browser environment and IntersectionObserver support
+    if (isPlatformBrowser(this.platformId) && typeof IntersectionObserver !== 'undefined') {
+      // Initialize element with base animation classes
+      const element = this.el.nativeElement;
+      element.classList.add('reveal');
+      element.classList.add(this.revealOnScroll);
+
+      // Setup IntersectionObserver to detect visibility
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              // Apply delay if specified
+              setTimeout(() => {
+                element.classList.add('is-visible');
+                // Unobserve after animation triggers
+                this.observer?.unobserve(element);
+              }, this.revealDelay);
+            }
+          });
+        },
+        {
+          threshold: this.revealThreshold,
+          rootMargin: '0px 0px -50px 0px' // Trigger slightly before element is fully visible
+        }
+      );
+
+      // Start observing
+      this.observer.observe(element);
+    } else {
+      // Fallback for SSR: show immediately
       const element = this.el.nativeElement;
       element.classList.add('reveal');
       element.classList.add(this.revealOnScroll);
       element.classList.add('is-visible');
-      return;
     }
-
-    // Add base reveal class
-    const element = this.el.nativeElement;
-    element.classList.add('reveal');
-    element.classList.add(this.revealOnScroll);
-
-    // Create IntersectionObserver
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Apply delay if specified
-            setTimeout(() => {
-              element.classList.add('is-visible');
-              // Unobserve after animation triggers
-              this.observer?.unobserve(element);
-            }, this.revealDelay);
-          }
-        });
-      },
-      {
-        threshold: this.revealThreshold,
-        rootMargin: '0px 0px -50px 0px' // Trigger slightly before element is fully visible
-      }
-    );
-
-    // Start observing
-    this.observer.observe(element);
   }
 
   ngOnDestroy(): void {

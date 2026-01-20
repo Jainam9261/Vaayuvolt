@@ -3,11 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CONTACT_INFO, SOCIAL_LINKS } from '../../../core/constants/contact.constants';
 
-/**
- * FooterComponent
- * 
- * Site footer with 4 columns: About, Quick Links, Contact, Social.
- */
+// Main application footer component displaying links and contact info
 @Component({
   selector: 'app-footer',
   standalone: true,
@@ -60,7 +56,7 @@ export class FooterComponent {
   }
 
   get addressUrl(): string {
-    // Google Maps search URL with the full address
+    // Returns Google Maps search URL for the address
     const encodedAddress = encodeURIComponent(this.contactInfo.address);
     return `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
   }

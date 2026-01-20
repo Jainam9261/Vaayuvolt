@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+// Application route definitions with lazy loading
 export const routes: Routes = [
   {
     path: '',

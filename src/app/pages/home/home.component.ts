@@ -10,12 +10,10 @@ import { WhatsAppFabComponent } from '../../shared/components/whatsapp-fab/whats
 import { ProductCardComponent, Product } from '../../shared/components/product-card/product-card.component';
 import { RevealOnScrollDirective } from '../../shared/directives/reveal-on-scroll.directive';
 import { CONTACT_INFO } from '../../core/constants/contact.constants';
+import { ToastService } from '../../core/services/toast.service';
+import { environment } from '../../../environments/environment';
 
-/**
- * HomeComponent
- * 
- * Home page with hero carousel, features, products preview, about section, and contact form.
- */
+// Home page component acting as the main landing page
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -43,14 +41,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private toastService: ToastService
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(/^[0-9]*$/)]],
-      message: ['', [Validators.required, Validators.minLength(10)]],
+      message: ['', [Validators.required]],
       honeypot: ['']
     });
   }
@@ -77,7 +76,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   ];
 
-  // Featured products for preview
+  // Featured products displayed on the home page
   featuredProducts = [
     {
       id: 1,
@@ -96,9 +95,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   ];
 
-  /* -------------------------------------------------------------------------- */
-  /*                           Why Choose Us Carousel                           */
-  /* -------------------------------------------------------------------------- */
+  // Carousel data and configuration
 
   whyChooseUsFeatures = [
     {
@@ -178,6 +175,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.stopAutoSlide();
   }
 
+  // Computes visible features for sliding carousel effect
   get visibleFeatures() {
     // Return a slice based on current index. Wrap around logic is handled in prev/next
     // But for a simple carousel, we can just slice.
@@ -269,7 +267,13 @@ This ensures correct sizing and performance expectations.`
   }
 
 
-  onSubmit(): void {
+  // Handles contact form submission
+  onSubmit(event?: Event): void {
+    // Prevent default form submission
+    if (event) {
+      event.preventDefault();
+    }
+
     // Reset validation errors
     this.formValidationError = false;
     this.formErrors = [];
@@ -295,45 +299,45 @@ This ensures correct sizing and performance expectations.`
       return;
     }
 
-    // Prepare mailto link
-    const { name, email, phone, message } = this.contactForm.value;
+    // Submit to Google Sheets using URLSearchParams (avoids preflight)
+    this.isSubmitting = true;
 
-    const subject = 'New Contact Form Inquiry';
+    const body = new URLSearchParams();
+    body.set('fullName', this.contactForm.value.name);
+    body.set('email', this.contactForm.value.email.toLowerCase());
+    body.set('mobile', this.contactForm.value.phone);
+    body.set('message', this.contactForm.value.message);
+    body.set('secret', environment.contactSecret);
 
-    // Build email body with proper line breaks
-    const bodyLines = [
-      '=================================',
-      'CONTACT FORM SUBMISSION  ',
-      '=================================',
-      '',
-      `Full Name: ${name}`,
-      `Email: ${email}`,
-      `Mobile Number: ${phone}`,
-      '',
-      'MESSAGE:',
-      '---',
-      message || 'No message provided',
-      '',
-      '=================================',
-    ];
+    fetch(environment.contactApiUrl, {
+      method: 'POST',
+      body: body
+    })
+      .then(res => res.json())
+      .then(res => {
+        this.isSubmitting = false;
+        if (res.status === 'success') {
+          this.submitSuccess = true;
+          this.toastService.success('Thank you for reaching out. We have received your message and will be in touch soon.');
+          this.contactForm.reset();
 
-    const body = bodyLines.join('%0D%0A');
-
-    const mailtoLink = `mailto:${CONTACT_INFO.EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`;
-
-    // Open email client
-    window.location.href = mailtoLink;
-
-    // Show success message
-    this.submitSuccess = true;
-    this.contactForm.reset();
-
-    // Reset success message after 5 seconds
-    setTimeout(() => {
-      this.submitSuccess = false;
-    }, 5000);
+          // Reset success message after 5 seconds
+          setTimeout(() => {
+            this.submitSuccess = false;
+          }, 5000);
+        } else {
+          this.submitError = 'Submission failed. Please try again.';
+          this.toastService.error('We were unable to send your message at this time. Please try again shortly.');
+        }
+      })
+      .catch(() => {
+        this.isSubmitting = false;
+        this.submitError = 'Network error. Please try again later.';
+        this.toastService.error('We were unable to send your message at this time. Please try again shortly.');
+      });
   }
 
+  // Marks all form fields as touched
   private markFormGroupTouched(formGroup: FormGroup): void {
     Object.keys(formGroup.controls).forEach(key => {
       const control = formGroup.get(key);
@@ -341,6 +345,7 @@ This ensures correct sizing and performance expectations.`
     });
   }
 
+  // Retrieves validation errors for a field
   getFieldError(fieldName: string): string {
     const field = this.contactForm.get(fieldName);
     if (field?.errors && field?.touched) {
@@ -354,12 +359,10 @@ This ensures correct sizing and performance expectations.`
         if (fieldName === 'name') return 'Name must contain only alphabets';
         if (fieldName === 'phone') return 'Phone must contain only numbers';
       }
-      if (field.errors['minlength']) {
-        return `Message must be at least ${field.errors['minlength'].requiredLength} characters`;
-      }
     }
     return '';
   }
+  // Enforces alphabetic input for name
   onNameInput(event: any): void {
     const input = event.target as HTMLInputElement;
     // Replace anything that is NOT a letter or space
@@ -367,6 +370,7 @@ This ensures correct sizing and performance expectations.`
     this.contactForm.get('name')?.setValue(input.value);
   }
 
+  // Enforces numeric input for phone
   onPhoneInput(event: any): void {
     const input = event.target as HTMLInputElement;
     // Replace anything that is NOT a number

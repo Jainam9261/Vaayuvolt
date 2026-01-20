@@ -10,14 +10,12 @@ export interface Product {
   images?: string[]; // Multiple images for gallery
   category: string;
   specs: string[];
-  models?: any[];
+  specsHeading?: string;
+  modelsHeading?: string;
+  models?: { name: string; details?: string; specs?: string[] }[];
 }
 
-/**
- * ProductCardComponent
- * 
- * Reusable product card component for displaying products in grid/list views.
- */
+// Reusable product card component for displaying products in grid/list views
 @Component({
   selector: 'app-product-card',
   standalone: true,

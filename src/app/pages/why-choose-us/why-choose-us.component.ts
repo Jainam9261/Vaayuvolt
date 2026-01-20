@@ -8,11 +8,7 @@ import { WhatsAppFabComponent } from '../../shared/components/whatsapp-fab/whats
 import { RevealOnScrollDirective } from '../../shared/directives/reveal-on-scroll.directive';
 import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
 
-/**
- * WhyChooseUsComponent
- * 
- * Why To Choose Us page showcasing benefits and features.
- */
+// Why Choose Us page component highlighting key benefits and features
 @Component({
   selector: 'app-why-choose-us',
   standalone: true,

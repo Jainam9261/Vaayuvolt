@@ -11,11 +11,7 @@ import { QuoteModalComponent } from '../../shared/components/quote-modal/quote-m
 import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
 import { ModelCardComponent } from '../../shared/components/model-card/model-card.component';
 
-/**
- * ProductsComponent
- * 
- * Products listing page with filters and grid layout.
- */
+// Products listing page component with filtering and details
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -66,17 +62,17 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     }, 300);
   }
 
-  // Get active image index for a product
+  // Gets the index of the currently active image for a product
   getActiveImage(productId: string): number {
     return this.activeImages.get(productId) || 0;
   }
 
-  // Select image for a product
+  // Updates the active image index for a product
   selectImage(productId: string, index: number): void {
     this.activeImages.set(productId, index);
   }
 
-  // Products Data
+  // List of available products
   products: Product[] = [
     {
       id: 'wind-1',
@@ -85,19 +81,21 @@ export class ProductsComponent implements OnInit, AfterViewInit {
       image: '/assets/images/Product 1 img 2.jpeg',
       images: ['/assets/images/Product 1 img 2.jpeg', '/assets/images/Product 1 img 1.jpeg'],
       category: 'wind',
+      specsHeading: 'Model Performance',
       specs: [
-        'Rated Output Power: 100W - 5000W',
-        'Output Voltage: 12-220V',
-        'Start Wind Speed: 2m/s',
-        'Rated Wind Speed: 10m/s',
-        'Working Wind Speed: 1-25 m/s',
-        'Safety Wind Speed: 50m/s',
-        'Start Torque: <0.1nm',
-        'Protection Grade: IP67',
-        'Working Temperature: -40°C to +50°C',
-        'Life Time: 20 Years',
+        'Rated output power: 100W - 5000W',
+        'Output voltage: 12-220V',
+        'Start wind speed: 2m/s',
+        'Rated wind speed: 10m/s',
+        'Working wind speed: 1-25 m/s',
+        'Safety wind speed: 50m/s',
+        'Start torque: <0.1nm',
+        'Protection grade: IP67',
+        'Working temperature: -40°C to +50°C',
+        'Life time: 20 Years',
         'Sound: <46Db'
       ],
+      modelsHeading: 'Model Available',
       models: [
         { name: '0.1 kW' },
         { name: '0.2 kW' },
@@ -111,26 +109,35 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     },
     {
       id: 'hybrid-2',
-      name: 'Solar And Wind Hybrid Street Light',
+      name: 'SOLAR AND WIND HYBRID STREET LIGHT',
       description: 'Advanced hybrid street lighting solution combining solar and wind power for maximum reliability. Perfect for urban and rural areas, providing consistent illumination with renewable energy.',
       image: '/assets/images/Product 2 img 1.png',
       images: ['/assets/images/Product 2 img 1.png', '/assets/images/Product 2 img 2.png'],
       category: 'hybrid',
-      specs: [
-        'Hybrid Power Technology',
-        'MPPT Based Controller',
-        'Automatic Operation',
-        'Weather Resistant',
-        'Pole as per Requirement'
-      ],
+      specs: [],
+      modelsHeading: 'MODEL AVAILABLE',
       models: [
         {
-          name: '60W',
-          details: '60W x No.2 LED Light | 100W Solar Panel | 100W Wind Turbine | Battery 54AH/12.8V | MPPT Based Controller'
+          name: '60W SOLAR AND WIND HYBRID STREET LIGHT',
+          specs: [
+            '60W x No.2 LED light',
+            '100W solar panel',
+            '100W wind turbine',
+            'Battery – 54Ah/12.8V',
+            'MPPT based controller',
+            'Pole as per requirement'
+          ]
         },
         {
-          name: '100W',
-          details: '100W x No.2 LED Light | 150W Solar Panel | 100W Wind Turbine | Battery 62AH/12.8V | MPPT Based Controller'
+          name: '100W SOLAR AND WIND HYBRID STREET LIGHT',
+          specs: [
+            '100W x No.2 LED light',
+            '150W solar panel',
+            '100W wind turbine',
+            'Battery – 62Ah/12.8V',
+            'MPPT based controller',
+            'Pole as per requirement'
+          ]
         }
       ]
     },
@@ -141,19 +148,69 @@ export class ProductsComponent implements OnInit, AfterViewInit {
       image: '/assets/images/Product 3 img 1.png',
       images: ['/assets/images/Product 3 img 1.png'], // Single image
       category: 'hybrid',
-      specs: [
-        'Permanent Magnet Generator',
-        'Rated Generator Speed: 200 RPM',
-        'Rated Wind Speed: 11-13 m/s',
-        'Lead Acid Battery in Battery Box',
-        'MPPT Based Hybrid Controller'
-      ],
+      specs: [],
+      modelsHeading: 'MODEL AVAILABLE',
       models: [
-        { name: '1 KW', details: '550W x No.1 Solar Module | 500W VAWT | Permanent Magnet Generator-1 (500W x 1)' },
-        { name: '2 KW', details: '550W x No.2 Solar Module | 1KW VAWT | Permanent Magnet Generator-2 (500W x 2)' },
-        { name: '3 KW', details: '550W x No.4 Solar Module | 1.5KW VAWT | Permanent Magnet Generator-3 (500W x 3)' },
-        { name: '5 KW', details: '550W x No.6 Solar Module | 2KW VAWT | Permanent Magnet Generator-4 (500W x 4)' },
-        { name: '10 KW', details: '550W x No.12 Solar Module | 4KW VAWT | Permanent Magnet Generator-8 (500W x 8)' }
+        {
+          name: '1 KW SOLAR & WIND HYBRID TURBINE',
+          specs: [
+            '550 W x No.1 solar module',
+            '500W VAWT',
+            'Lead acid battery in battery box',
+            'MPPT based hybrid controller',
+            'Permanent magnet generator -1 (500W x 1)',
+            'Rated generator speed - 200 RPM',
+            'Rated wind speed 11-13 m/s'
+          ]
+        },
+        {
+          name: '2 KW SOLAR & WIND HYBRID TURBINE',
+          specs: [
+            '550 W x No.2 solar module',
+            '1kW VAWT',
+            'Lead acid battery in battery box',
+            'MPPT based hybrid controller',
+            'Permanent magnet generator -2 (500W x 2)',
+            'Rated generator speed - 200 RPM',
+            'Rated wind speed 11-13 m/s'
+          ]
+        },
+        {
+          name: '3 KW SOLAR & WIND HYBRID TURBINE',
+          specs: [
+            '550 W x No.4 solar module',
+            '1.5kW VAWT',
+            'Lead acid battery in battery box',
+            'MPPT based hybrid controller',
+            'Permanent magnet generator -3 (500W x 3)',
+            'Rated generator speed - 200 RPM',
+            'Rated wind speed 11-13 m/s'
+          ]
+        },
+        {
+          name: '5 KW SOLAR & WIND HYBRID TURBINE',
+          specs: [
+            '550 W x No.6 solar module',
+            '2kW VAWT',
+            'Lead acid battery in battery box',
+            'MPPT based hybrid controller',
+            'Permanent magnet generator -4 (500W x 4)',
+            'Rated generator speed - 200 RPM',
+            'Rated wind speed 11-13 m/s'
+          ]
+        },
+        {
+          name: '10 KW SOLAR & WIND HYBRID TURBINE',
+          specs: [
+            '550 W x No.12 solar module',
+            '4kW VAWT',
+            'Lead acid battery in battery box',
+            'MPPT based hybrid controller',
+            'Permanent magnet generator -8 (500W x 8)',
+            'Rated generator speed - 200 RPM',
+            'Rated wind speed 11-13 m/s'
+          ]
+        }
       ]
     }
   ];

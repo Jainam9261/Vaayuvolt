@@ -25,7 +25,7 @@
 
 
         <div class="contact-form-wrapper" revealOnScroll="fade-left">
-          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="modern-contact-form">
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit($event)" class="modern-contact-form" novalidate>
             <!-- Honeypot field (hidden) -->
             <input type="text" formControlName="honeypot" class="sr-only" tabindex="-1" autocomplete="off" />
 
@@ -44,10 +44,17 @@
 
               <!-- Email (Required) -->
               <div class="form-group">
-                <label for="email">Email Address <span class="required">*</span></label>
-                <div class="input-wrapper">
-                  <input type="email" id="email" formControlName="email" placeholder="Enter your email address" />
-                </div>
+    <label>Email Address <span class="required">*</span></label>
+    <div class="input-wrapper">
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="john@example.com"
+        [class.invalid]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+    </div>
                 @if (getFieldError('email')) {
                   <span class="error-message">{{ getFieldError('email') }}</span>
                 }

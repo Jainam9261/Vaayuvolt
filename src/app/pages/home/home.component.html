@@ -28,10 +28,10 @@
 
         <!-- Right Column - Description -->
         <div class="about-text-column" revealOnScroll="fade-left" [revealDelay]="400">
-          <h1 class="main-headline">Powering India<br>with smart<br>renewables</h1>
+          <h1 class="main-headline">Powering India <span class="desktop-break"><br></span>with smart <span class="desktop-break"><br></span>renewables</h1>
           <div class="about-description">
             <p>
-              Santal Energy is an Indian clean-energy company building engineering-driven wind power
+              Vaayuvolt is an Indian clean-energy company building engineering-driven wind power
               solutions for real-world conditions. Founded by a Mechanical Engineer, the company focuses on
               precision design and reliable manufacturing to deliver practical renewable technologies.
             </p>
@@ -54,7 +54,7 @@
         <h2>PRODUCTS</h2>
         <div class="section-intro-text" style="max-width: 900px; margin: 0 auto; line-height: 1.8; font-size: 18px; color: #555;">
           <p>
-            VaayuVolt is a portable, rooftop ready Vertical Axis Wind Turbine built for India’s real real-world wind conditions. It produces clean, steady electricity even in low or shifting winds. Designed for rooftops, silent and versatile, VaayuVolt supports hybrid systems, lowers energy costs, enhances reliability, and brings practical renewable power to homes, businesses, and remote sites.
+            VaayuVolt is a portable, rooftop ready Vertical Axis Wind Turbine built for India’s real-world wind conditions. It produces clean, steady electricity even in low or shifting winds. Designed for rooftops, silent and versatile, VaayuVolt supports hybrid systems, lowers energy costs, enhances reliability, and brings practical renewable power to homes, businesses, and remote sites.
           </p>
         </div>
       </div>
@@ -95,14 +95,14 @@
               systems that are not only efficient, but durable, serviceable, and suited for long-term operation.
             </p>
             <p>
-              Santal Energy represents my commitment to indigenous engineering, clean technology, and
+              Vaayuvolt represents my commitment to indigenous engineering, clean technology, and
               contributing meaningfully to India’s renewable energy future.
             </p>
           </div>
 
           <div class="founder-signature">
             <span class="founder-name">– Aagam Shah</span>
-            <span class="founder-title">Founder, Santal Energy</span>
+            <span class="founder-title">Founder, Vaayuvolt</span>
           </div>
         </div>
 
@@ -111,7 +111,7 @@
           <div class="image-wrapper">
             <img 
               src="/assets/images/Founder-Image.jpeg" 
-              alt="Aagam Shah - Founder, Santal Energy" 
+              alt="Aagam Shah - Founder, Vaayuvolt" 
               loading="lazy"
             />
           </div>
@@ -168,7 +168,7 @@
           <p>Let's power your journey with smart wind energy solutions.</p>
         </div>
         
-        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="modern-contact-form">
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit($event)" class="modern-contact-form" novalidate>
           <!-- Honeypot -->
           <input type="text" formControlName="honeypot" class="sr-only" tabindex="-1" autocomplete="off" />
 
@@ -187,9 +187,16 @@
 
             <!-- Email (Required) -->
             <div class="form-group">
-              <label for="home-email">Email Address <span class="required">*</span></label>
+              <label>Email Address <span class="required">*</span></label>
               <div class="input-wrapper">
-                <input type="email" id="home-email" formControlName="email" placeholder="Enter your email address"/>
+                <input
+                  type="email"
+                  formControlName="email"
+                  placeholder="john@example.com"
+                  [class.invalid]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+                  autocapitalize="off"
+                  spellcheck="false"
+                />
               </div>
               @if (getFieldError('email')) {
                 <span class="error-message">{{ getFieldError('email') }}</span>

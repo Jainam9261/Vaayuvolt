@@ -32,30 +32,39 @@
       margin: 0;
 
       li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
         font-size: 18px;
         line-height: 1.8;
         padding: var(--spacing-md) 0;
-        color: var(--neutral-700);
-        position: relative;
-        padding-left: 30px;
+        color: #1f2937; // High contrast dark grey
 
         &::before {
           content: '•';
-          position: absolute;
-          left: 0;
           color: var(--brand-teal);
           font-size: 24px;
           font-weight: bold;
+          line-height: 1;
+          margin-top: 2px; // Visual alignment with text cap-height
+          flex-shrink: 0;
         }
 
         strong {
           color: var(--neutral-900);
           font-weight: 600;
+          display: inline; // Let it flow with text if needed, or keep block if structure demands
         }
+
+        // Wrap content in a span if strictly needed for flex, but text node works fine.
+        // If the structure is <li><strong>Title:</strong> Description</li>, 
+        // flex will treat strong as one item and text as another if not wrapped.
+        // Let's assume standard text flow is desired.
 
         @media (max-width: 768px) {
           font-size: 16px;
           padding: var(--spacing-sm) 0;
+          gap: 10px;
         }
       }
     }

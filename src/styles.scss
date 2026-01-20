@@ -1,12 +1,8 @@
-/* ============================================
-   VaayuVolt - Global Styles
-   ============================================ */
+// Global Styles for VaayuVolt Application
 
 /* Brand Colors - Based on VaayuVolt Logo */
 :root {
-  /* ============================================
-     Brand Colors - Premium Palette
-     ============================================ */
+  // Brand Colors - Premium Palette
   --brand-primary: #135282;
   /* Deep Ocean Teal */
   --brand-accent: #20B7C7;
@@ -371,9 +367,7 @@ button {
   color: var(--brand-primary);
 }
 
-/* ============================================
-   Premium Utilities
-   ============================================ */
+/* Premium Utilities for enhanced UI details */
 
 /* Glassmorphism Effect */
 .glass-effect {
@@ -422,4 +416,38 @@ button {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--brand-primary);
+}
+
+// ============================================
+// Global Responsiveness Fixes
+// ============================================
+
+// 1. Mobile Header Overlap Fix
+@media (max-width: 992px) {
+  main {
+    padding-top: 20px;
+  }
+}
+
+// 2. Ultra-Wide Screen Constraints
+@media (min-width: 1921px) {
+  body {
+    background-color: #050505;
+  }
+
+  app-root {
+    display: block;
+    max-width: 1920px;
+    margin: 0 auto;
+    background-color: var(--neutral-100);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    min-height: 100vh;
+  }
+
+  .navbar {
+    max-width: 1920px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
 }

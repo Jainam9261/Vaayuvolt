@@ -39,15 +39,15 @@
 
   .carousel-track {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr); // Default 3 columns
     gap: var(--spacing-xl);
 
     @media (max-width: 992px) {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 1fr); // Switch to 2 columns on tablet
     }
 
     @media (max-width: 640px) {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr; // Single column on mobile
     }
   }
 
@@ -246,9 +246,6 @@
       color: #ffffff;
       margin-bottom: 40px;
       letter-spacing: -0.02em;
-
-      // Make "Vaayuvolt" or key terms pop if they were wrapped in spans, 
-      // but here we style the whole block or specific parts if needed.
     }
 
     .about-description {
@@ -280,8 +277,7 @@
     }
 
     .about-image-column {
-      order: 1; // Image top as requested often, or bottom? User image shows side-by-side. 
-      // Usually mobile = image top or bottom. Let's keep it clean.
+      order: 1;
       margin-bottom: 40px;
     }
 
@@ -291,6 +287,15 @@
 
       .main-headline {
         font-size: 42px;
+
+        // Hide the forced breaks on mobile/tablet to allow natural flow
+        .desktop-break {
+          display: none;
+
+          br {
+            display: none;
+          }
+        }
       }
     }
   }
@@ -314,18 +319,16 @@
 // Founder's Message Section
 // ============================================
 .founder-message-section {
-  background-color: #15181e; // Slightly darker than About Us for separation
-  color: #e5e7eb;
+  background-color: #0d1117; // Deep dark bg
+  color: #ffffff;
   padding: 120px 0;
   position: relative;
   overflow: hidden;
-
-  // Optional: Subtle separation border or shadow
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 
   .founder-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; // 50/50 split
+    grid-template-columns: 1fr 1fr;
     gap: 80px;
     align-items: center;
 
@@ -339,7 +342,6 @@
     }
   }
 
-  // Left Column - Text
   .founder-text-column {
     display: flex;
     flex-direction: column;
@@ -349,16 +351,16 @@
       font-size: 14px;
       text-transform: uppercase;
       letter-spacing: 0.15em;
-      color: #9ca3af; // Muted grey
+      color: #60a5fa; // Brighter accent blue for better visibility
       margin-bottom: 24px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .founder-heading {
       font-family: 'Space Grotesk', 'Outfit', sans-serif;
       font-size: 42px;
       font-weight: 700;
-      color: #f9fafb; // Off-white
+      color: #ffffff; // Pure white
       margin-bottom: 32px;
       line-height: 1.1;
 
@@ -372,9 +374,9 @@
         font-family: 'Inter', 'Manrope', sans-serif;
         font-size: 17px;
         line-height: 1.7;
-        color: #d1d5db; // Soft light grey
+        color: #e5e7eb; // Very light grey (high contrast)
         margin-bottom: 24px;
-        max-width: 90%; // Improve readability
+        max-width: 90%;
 
         &:last-child {
           margin-bottom: 0;
@@ -382,6 +384,7 @@
 
         @media (max-width: 768px) {
           font-size: 16px;
+          max-width: 100%;
         }
       }
     }
@@ -396,7 +399,7 @@
         font-family: 'Space Grotesk', 'Outfit', sans-serif;
         font-size: 20px;
         font-weight: 700;
-        color: #f9fafb;
+        color: #ffffff;
       }
 
       .founder-title {
@@ -418,8 +421,6 @@
       box-shadow:
         0 20px 40px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.05); // Subtle border
-
-      // Aspect ratio management if needed, or rely on image dimensions
 
       img {
         display: block;
@@ -553,10 +554,14 @@
     margin-bottom: var(--spacing-3xl);
 
     &.simple-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 
       @media (max-width: 1024px) {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+
+      @media (max-width: 640px) {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -711,7 +716,7 @@
     gap: var(--spacing-md);
     font-size: 18px;
     font-weight: 600;
-    color: var(--neutral-900);
+    color: #1f2937; // Darker contrast
     transition: all 0.3s ease;
     font-family: 'Inter', sans-serif;
 
@@ -853,7 +858,7 @@
         display: block;
         font-size: 14px;
         font-weight: 600;
-        color: #374151;
+        color: #111827; // High contrast
         margin-bottom: 8px;
 
         .required {
@@ -875,6 +880,7 @@
           font-size: 15px;
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
           font-family: 'Inter', sans-serif;
+          text-transform: none; // Ensure user input casing is respected
 
           &::placeholder {
             color: #9ca3af;

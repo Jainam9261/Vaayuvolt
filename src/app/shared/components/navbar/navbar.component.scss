@@ -23,7 +23,9 @@
     align-items: center;
     text-decoration: none;
     transition: transform var(--transition-base);
-    background: transparent; // Ensure transparent background
+    background: transparent;
+    z-index: 1002; // Ensure logo stays above menu if needed, or let menu cover it. 
+    // Usually logo should be visible. Let's keep it visible.
 
     &:hover {
       transform: scale(1.05);
@@ -53,28 +55,7 @@
     margin: 0;
     padding: 0;
 
-    @media (max-width: 1024px) {
-      position: fixed;
-      top: 70px;
-      left: 0;
-      right: 0;
-      background-color: white;
-      flex-direction: column;
-      padding: var(--spacing-xl);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transform: translateY(-100%);
-      opacity: 0;
-      visibility: hidden;
-      transition: all var(--transition-base);
-      gap: var(--spacing-md);
-
-      &.menu-open {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-
+    // Desktop Styles for LIs
     li {
       position: relative;
 
@@ -167,23 +148,107 @@
           }
         }
       }
+    }
 
-      @media (max-width: 1024px) {
+    // ============================================
+    // Mobile Menu Styling (Full Screen Overlay)
+    // ============================================
+    @media (max-width: 1024px) {
+      position: fixed;
+      inset: 0; // Top, right, bottom, left: 0
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.98); // High opacity for clean look
+      backdrop-filter: blur(8px); // Glass effect
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--spacing-2xl);
+      gap: 30px; // Open spacing
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 999; // Above everything else except hamburger
+
+      &.menu-open {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+
+      // Mobile Link Styles
+      // Mobile Link Styles
+      li {
+        a {
+          font-size: 22px; // Big, tap-friendly text
+          font-weight: 700;
+          padding: 8px 30px; // Add horizontal padding
+          color: var(--neutral-900);
+          display: inline-block;
+          position: relative;
+
+          &.active {
+            color: var(--brand-primary);
+          }
+
+          // Re-enable underline animation for mobile, extending across padding
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 20px; // Start inside padding
+            right: 20px; // End inside padding
+            height: 2px;
+            background-color: var(--brand-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+          }
+
+          &:hover::after,
+          &.active::after {
+            transform: scaleX(1);
+          }
+        }
+      }
+
+      // Mobile Dropdown styling (Center expanded)
+      .dropdown-container {
+        text-align: center;
+        width: 100%;
+
         .dropdown-menu {
-          position: static;
+          position: relative;
+          background: transparent;
           box-shadow: none;
-          background-color: transparent;
-          padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-lg);
+          text-align: center;
+          padding: 10px 0 0 0;
           margin-top: 0;
-          border-left: 2px solid var(--brand-primary);
+          border: none;
+          min-width: auto;
+          opacity: 1;
+          visibility: visible;
+          transform: none;
           max-height: 0;
           overflow: hidden;
-          transition: max-height 0.3s ease, padding 0.3s ease;
+          transition: max-height 0.3s ease;
+
+          li a {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--muted);
+            padding: 6px 0;
+            justify-content: center; // Center flex content if any
+
+            &:hover {
+              background: transparent;
+              color: var(--brand-primary);
+            }
+          }
         }
 
         &.dropdown-open .dropdown-menu {
           max-height: 300px;
-          padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-lg);
         }
       }
     }
@@ -201,33 +266,38 @@
     }
   }
 
+  // Hamburger Button
   .hamburger {
     display: none;
     flex-direction: column;
-    gap: 4px;
+    gap: 4px; // Revert to 4px
     background: none;
     border: none;
     cursor: pointer;
     padding: var(--spacing-sm);
-    width: 32px;
-    height: 32px;
+    width: 32px; // Revert to 32px
+    height: 32px; // Revert to 32px
     justify-content: center;
+    z-index: 1002;
+    position: relative;
 
     @media (max-width: 1024px) {
       display: flex;
     }
 
     span {
-      width: 24px;
-      height: 2px;
+      width: 24px; // Revert to 24px
+      height: 2px; // Revert to 2px
       background-color: var(--neutral-900);
-      transition: all var(--transition-base);
-      border-radius: 2px;
+      transition: all var(--transition-base); // Revert transition
+      border-radius: 2px; // Revert radius
+      transform-origin: center;
     }
 
+    // X Animation
     &.active {
       span:nth-child(1) {
-        transform: rotate(45deg) translate(6px, 6px);
+        transform: rotate(45deg) translate(5px, 5px); // Adjusted for new size/gap
       }
 
       span:nth-child(2) {
@@ -235,7 +305,7 @@
       }
 
       span:nth-child(3) {
-        transform: rotate(-45deg) translate(6px, -6px);
+        transform: rotate(-45deg) translate(5px, -5px); // Adjusted for new size/gap
       }
     }
   }

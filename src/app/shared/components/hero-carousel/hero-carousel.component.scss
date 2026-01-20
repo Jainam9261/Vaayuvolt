@@ -1,88 +1,31 @@
-// Hero Carousel Wrapper - Full width with centered container
+// Hero Carousel Wrapper - Full screen width
 .hero-carousel-wrapper {
   position: relative;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px 16px;
-  background: var(--neutral-100); // Neutral background, no black bars
-  min-height: 300px; // Ensure minimum height
+  display: block;
+  padding: 0;
+  // Use a gradient placeholder instead of solid black to avoid "void" look
+  background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
   opacity: 1;
   visibility: visible;
-
-  @media (max-width: 640px) {
-    padding: 16px 12px;
-    min-height: 250px;
-  }
-
-  @media (min-width: 1920px) {
-    padding: 32px 24px;
-  }
 }
 
-// Centered Hero Container - Maintains 3:2 aspect ratio
+// Full Width Hero Container
 .hero-carousel-container {
-  // Dynamic sizing - let images determine height
   width: 100%;
-  height: auto;
-  max-width: 1000px;
-  min-height: 300px; // Minimum height for mobile
-
-  // Premium styling
-  border-radius: 18px;
+  max-width: 100%;
+  height: auto; // Allow height to be determined by content (image)
+  min-height: auto; // Remove fixed min-height
+  border-radius: 0;
   overflow: hidden;
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.12),
-    0 8px 24px rgba(0, 0, 0, 0.08);
-
-  // Always visible, smooth scale-in animation
+  box-shadow: none;
   opacity: 1;
   transform: scale(1);
-  transition:
-    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-
-  // Will-change for hardware acceleration
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
 
-  // Animation trigger class - subtle entrance effect
   .hero-carousel-wrapper.animate-in & {
     animation: scaleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  // Responsive adjustments
-  @media (max-width: 1400px) {
-    max-width: 100%;
-    border-radius: 16px;
-  }
-
-  @media (max-width: 1024px) {
-    border-radius: 14px;
-    box-shadow:
-      0 16px 48px rgba(0, 0, 0, 0.1),
-      0 6px 20px rgba(0, 0, 0, 0.06);
-  }
-
-  @media (max-width: 768px) {
-    border-radius: 12px;
-    min-height: 240px;
-    box-shadow:
-      0 12px 36px rgba(0, 0, 0, 0.08),
-      0 4px 16px rgba(0, 0, 0, 0.05);
-  }
-
-  @media (max-width: 640px) {
-    border-radius: 10px;
-    min-height: 200px;
-    box-shadow:
-      0 8px 24px rgba(0, 0, 0, 0.06),
-      0 3px 12px rgba(0, 0, 0, 0.04);
-  }
-
-  @media (max-width: 480px) {
-    border-radius: 8px;
-    min-height: 180px;
   }
 }
 
@@ -90,7 +33,7 @@
 @keyframes scaleIn {
   from {
     opacity: 0;
-    transform: scale(0.96);
+    transform: scale(0.98);
   }
 
   to {
@@ -99,11 +42,10 @@
   }
 }
 
-// Swiper container - fills the hero container
+// Swiper container
 .hero-swiper {
   width: 100%;
-  height: 100%;
-  border-radius: inherit; // Inherit border-radius from container
+  height: auto; // Adjust to auto
   display: block;
   position: relative;
   opacity: 1;
@@ -111,60 +53,52 @@
 
   swiper-slide {
     width: 100%;
-    height: 100%;
+    height: auto; // Adjust to auto
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; // Ensure content is centered
+    box-sizing: border-box;
   }
 }
 
-// Slide content - Image container
+// Slide content - Image & Overlay
 .slide-content {
   width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: auto; // Adjust to auto
   position: relative;
   overflow: hidden;
-  background: var(--neutral-100); // Ensure background while loading
-
-  // Neutral background behind image (visible during load)
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--neutral-100);
-    z-index: -1;
-  }
 
   img {
     width: 100%;
-    height: 100%;
-    object-fit: contain; // Show full image
+    height: auto; // Let height scale proportionally
+    aspect-ratio: auto; // Remove forced aspect ratio to prevent cropping
+    object-fit: contain; // Ensure full image is visible
     object-position: center;
     display: block;
-
-    // Show image immediately, smooth fade-in if not cached
     opacity: 1;
-    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 6s ease;
 
-    // For smooth loading effect - start visible but can enhance on load
     &.loaded {
       opacity: 1;
-      animation: fadeInImage 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeInImage 0.6s ease-out;
     }
 
-    // If image is already cached, ensure it's visible
     &[complete] {
       opacity: 1;
     }
   }
 }
 
+@keyframes slideUpFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes fadeInImage {
   from {
-    opacity: 0.3;
+    opacity: 0.5;
   }
 
   to {
@@ -172,101 +106,90 @@
   }
 }
 
-// Swiper pagination and navigation styles
+// Swiper Navigation customization
 ::ng-deep {
   .hero-carousel-container {
+
+    // Pagination (Dots) - Optional, can hide if arrows are primary
     .swiper-pagination {
-      bottom: 20px !important;
-
-      @media (max-width: 768px) {
-        bottom: 16px !important;
-      }
-
-      @media (max-width: 640px) {
-        bottom: 12px !important;
-      }
+      bottom: 24px !important;
     }
 
     .swiper-pagination-bullet {
-      background: rgba(255, 255, 255, 0.7);
-      opacity: 0.6;
+      background: white;
+      opacity: 0.5;
       width: 10px;
       height: 10px;
+      margin: 0 6px !important;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       backdrop-filter: blur(4px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 
       &.swiper-pagination-bullet-active {
         opacity: 1;
-        background: var(--brand-warm);
-        width: 28px;
-        border-radius: 5px;
-      }
-
-      @media (max-width: 768px) {
-        width: 9px;
-        height: 9px;
-
-        &.swiper-pagination-bullet-active {
-          width: 24px;
-        }
-      }
-
-      @media (max-width: 640px) {
-        width: 8px;
-        height: 8px;
-
-        &.swiper-pagination-bullet-active {
-          width: 20px;
-        }
+        background: var(--brand-accent); // Teal/Blue highlight
+        width: 24px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
       }
     }
 
-    .swiper-button-next,
-    .swiper-button-prev {
-      color: white;
-      background: rgba(0, 0, 0, 0.4);
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      backdrop-filter: blur(8px);
+    // Navigation Arrows - Reference Style (White Circle, Dark Icon)
+    swiper-container::part(button-next),
+    swiper-container::part(button-prev) {
+      background: #ffffff !important; // Solid white
+      border: none !important;
+      width: 24px !important; // Small 24px size
+      height: 24px !important;
+      border-radius: 50% !important;
+      color: #111827 !important; // Dark/Black icon
+      transition: all 0.3s ease;
+      margin-top: -12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      opacity: 0.9;
 
-      &:hover {
-        background: rgba(0, 0, 0, 0.6);
-        transform: scale(1.1);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-      }
+      // Perfect centering with Flexbox
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
 
-      &:active {
-        transform: scale(0.95);
-      }
+      // KEY FIX: Use padding to constrain the SVG content size
+      // 24px width - 12px padding (6px * 2) = 12px content area for SVG
+      box-sizing: border-box !important;
+      padding: 6px !important;
+    }
 
-      &::after {
-        font-size: 20px;
-        font-weight: bold;
-      }
+    swiper-container::part(button-next) {
+      right: 80px !important;
+    }
 
-      @media (max-width: 1024px) {
-        width: 44px;
-        height: 44px;
+    swiper-container::part(button-prev) {
+      left: 80px !important;
+    }
 
-        &::after {
-          font-size: 18px;
-        }
-      }
+    swiper-container::part(button-next):hover,
+    swiper-container::part(button-prev):hover {
+      background: #ffffff !important;
+      transform: scale(1.15);
+      opacity: 1;
+      color: var(--brand-primary) !important;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    }
 
-      @media (max-width: 768px) {
-        width: 40px;
-        height: 40px;
 
-        &::after {
-          font-size: 16px;
-        }
-      }
+    .swiper-button-prev {
+      left: 40px;
+    }
 
-      @media (max-width: 640px) {
-        display: none; // Hide on mobile for cleaner UI
+    .swiper-button-next {
+      right: 40px;
+    }
+
+    @media (max-width: 768px) {
+
+      .swiper-button-prev,
+      .swiper-button-next {
+        display: none; // Hide on mobile
       }
     }
 
@@ -281,23 +204,17 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-carousel-container {
     transition: none;
-
-    &::before {
-      animation: none;
-    }
+    animation: none;
   }
 
   .slide-content img {
     transition: none;
+    animation: none;
   }
 
   ::ng-deep .hero-carousel-container {
     .swiper-slide {
       transition: opacity 0.3s ease !important;
-    }
-
-    .swiper-pagination-bullet {
-      transition: none;
     }
   }
 }

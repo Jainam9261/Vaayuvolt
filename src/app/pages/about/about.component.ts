@@ -8,11 +8,7 @@ import { FooterComponent } from '../../shared/components/footer/footer.component
 import { WhatsAppFabComponent } from '../../shared/components/whatsapp-fab/whatsapp-fab.component';
 import { PageHeaderComponent } from '../../shared/components/page-header/page-header.component';
 
-/**
- * AboutComponent
- * 
- * About Us page with company story, mission, and team information.
- */
+// About Us page component showcasing company story and mission
 @Component({
   selector: 'app-about',
   standalone: true,

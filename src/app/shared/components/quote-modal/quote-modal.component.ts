@@ -1,14 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ContactService, ContactFormData } from '../../../core/services/contact.service';
+import { ContactService } from '../../../core/services/contact.service';
+import { ContactFormData } from '../../../core/models/common.models';
 
-/**
- * QuoteModalComponent
- * 
- * Modal component for quick quote requests.
- * Can be used standalone or embedded in other components.
- */
+// Modal component for facilitating quick quote requests
 @Component({
   selector: 'app-quote-modal',
   standalone: true,
@@ -54,7 +50,7 @@ export class QuoteModalComponent {
 
     // Check honeypot
     if (this.quoteForm.value.honeypot) {
-      return; // Bot detected, silently fail
+      return; // Silently fail if honeypot is filled (bot detected)
     }
 
     this.isSubmitting = true;
@@ -73,8 +69,8 @@ export class QuoteModalComponent {
         this.isSubmitting = false;
         this.submitSuccess = true;
         this.quoteSubmitted.emit();
-        
-        // Reset form after 3 seconds
+
+        // Auto-reset form after success message delay
         setTimeout(() => {
           this.resetForm();
           this.close();

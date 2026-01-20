@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-/**
- * TopbarComponent
- * 
- * Top information bar displaying contact info (phone, email, location).
- * Appears above the main navbar.
- */
+// Top information bar displaying contact details above navbar
 @Component({
   selector: 'app-topbar',
   standalone: true,

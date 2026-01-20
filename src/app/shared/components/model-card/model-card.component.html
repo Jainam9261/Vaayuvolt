@@ -1,6 +1,12 @@
 <div class="model-card">
   <div class="model-badge">{{ model.name }}</div>
-  @if (model.details) {
+  @if (model.specs) {
+    <ul class="model-specs-list">
+      @for (spec of model.specs; track spec) {
+        <li>{{ spec }}</li>
+      }
+    </ul>
+  } @else if (model.details) {
     <div class="model-details">{{ model.details }}</div>
   }
 </div>
