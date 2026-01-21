@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    contactApiUrl: 'https://script.google.com/macros/s/AKfycbzPDnLk5gzyNfelA76hFK7rIdpKW_iTgG62B60nuZECChjSsM9riNuBlIzsB0EwQq5H/exec',
+    contactApiUrl: 'https://script.google.com/macros/s/AKfycbztFwteaWVDvmC8m-S0eiSX8MMrMgwhZoIWlE2j5SHPFVMgxqjFB0JBy6VWR7yTeYow6A/exec',
     contactSecret: 'VaayuVolt@ContactInfo2026'
 };
